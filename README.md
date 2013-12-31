@@ -4,4 +4,4 @@ Ti fa vedere le cose.
 
 Preamble
 ========
-Implementation completely client-side of Pigro's APIs.
+Client-side implementation of Pigro's APIs. Ruby gives us the sight.
