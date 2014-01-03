@@ -16,6 +16,7 @@ class ShowInfoView < Vienna::TemplateView
 
   def render
     super
+    
     element << @show.send(@field.to_sym)
   end
 

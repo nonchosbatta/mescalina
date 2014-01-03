@@ -25,9 +25,8 @@ class MescalinaView < Vienna::View
   def add_show(show)
     view = ShowView.new show
     view.render
-    Element.find('table') << view.element
+    Element.find('#mescalina') << view.element
   end
-    alias_method :update_show, :add_show
 
   def load
     Show.all! -> (res) { Show.make Show.get_fields(res) }

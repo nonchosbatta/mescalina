@@ -8,11 +8,16 @@
 #  0. You just DO WHAT THE FUCK YOU WANT TO.
 #++
 require 'opal'
+
 require 'jquery'
+require 'jquery.bpopup'
+require 'bootstrap'
+
 require 'opal-jquery'
 require 'opal-haml'
 
 require 'vienna'
+require 'vienna/adapters/local'
 require 'vienna/template_view'
 
 require 'helpers'

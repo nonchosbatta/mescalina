@@ -13,8 +13,22 @@ class ShowView < Vienna::TemplateView
     @show = show
   end
 
-  def remove
-    element.remove
+  on :click do
+    Episode.all! @show.name, -> (res) {
+      Episode.make @show, Episode.get_fields(res)
+    }
+
+    episodes = Episode.of @show
+    if episodes.any?
+      view = EpisodeView.new episodes
+      view.render
+      element << view.element
+
+      `$('#episode').bPopup({
+        modalClose: false,
+        onClose   : function() { $('.episode-info').remove(); }
+      });`
+    end
   end
 
   def render

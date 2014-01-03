@@ -7,8 +7,19 @@
 #
 #  0. You just DO WHAT THE FUCK YOU WANT TO.
 #++
-require 'view/show'
-require 'view/mescalina'
-require 'view/showinfo'
-require 'view/episode'
-require 'view/episodeinfo'
+
+class EpisodeView < Vienna::TemplateView
+  def initialize(episode)
+    @episode = episode
+  end
+
+  def render
+    super
+
+    @episode.each { |episode|
+      view = EpisodeInfoView.new episode
+      view.render
+      Element.find('#episode-info') << view.element
+    }
+  end
+end

@@ -1,0 +1,29 @@
+tr:first-child {
+  font-weight: bold;
+}
+
+#episode {
+  background-color: #fff;
+  border-radius   : 15px;
+  color           : #000;
+  display         : none; 
+  padding         : 20px;
+  min-width       : 400px;
+  min-height      : 180px;
+}
+
+.b-close {
+  cursor  : pointer;
+  position: absolute;
+  right   : 10px;
+  top     : 5px;
+}
+
+.true {
+  background: none repeat scroll 0 0 rgba(31, 191, 55, 0.9) !important;
+}
+
+.false {
+  background: none repeat scroll 0 0 rgba(247, 47, 55, 0.8)   !important;
+  color     :                        rgba(255, 255, 255, 0.8) !important;
+}

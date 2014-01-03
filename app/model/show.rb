@@ -7,12 +7,11 @@
 #
 #  0. You just DO WHAT THE FUCK YOU WANT TO.
 #++
-require 'vienna/adapters/local'
 
 class Show < Vienna::Model
   adapter Vienna::LocalAdapter
 
-  attributes :name, :tot_episodes, :status, :airing
+  attributes :name, :tot_episodes, :status,  :airing
   attributes :translator, :editor, :checker, :timer, :typesetter, :encoder, :qchecker
 
   def info?
@@ -34,9 +33,13 @@ class Show < Vienna::Model
       }
     end
 
+    def get(find_dat_show)
+      Show.all.select { |show| show[:name] == find_dat_show[:name] }
+    end
+
     def make(fields)
       fields.each { |data|
-        current = Show.all.select { |show| show['name'] == data[:name] }
+        current = Show.get data
 
         if current.any?
           current.each { |show|
@@ -44,8 +47,8 @@ class Show < Vienna::Model
           }
         else
           Show.create data
-          Show.all.each { |show|
-            Show.get! show.name, ->(res) { Show.make get_fields(res) }
+          Show.get(data).each { |show|
+            Show.get! show.name, ->(res) { Show.make Show.get_fields(res) }
           }
         end
       }
