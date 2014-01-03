@@ -2,6 +2,12 @@ tr:first-child {
   font-weight: bold;
 }
 
+.footer {
+  height: 60px;
+  text-align: right;
+  padding-right: 10px;
+}
+
 #episode {
   background-color: #fff;
   border-radius   : 15px;
