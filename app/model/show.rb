@@ -11,7 +11,7 @@
 class Show < Vienna::Model
   adapter Vienna::LocalAdapter
 
-  attributes :name, :tot_episodes, :airing
+  attributes :name, :tot_episodes, :fansub
   attributes :translator, :editor, :checker, :timer, :typesetter, :encoder, :qchecker
 
   def info?
