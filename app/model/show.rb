@@ -38,7 +38,7 @@ class Show < Vienna::Model
     end
 
     def make(fields)
-      fields.each { |data|
+      fields.sort_by { |s| s[:name] }.each { |data|
         current = Show.get data
 
         if current.any?
