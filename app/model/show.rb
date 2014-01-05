@@ -11,7 +11,7 @@
 class Show < Vienna::Model
   adapter Vienna::LocalAdapter
 
-  attributes :name, :tot_episodes, :fansub
+  attributes :name, :tot_episodes, :fansub, :status
   attributes :translator, :editor, :checker, :timer, :typesetter, :encoder, :qchecker
 
   def info?
@@ -31,6 +31,10 @@ class Show < Vienna::Model
           }
         }
       }
+    end
+
+    def exclude?(field)
+      [:status].include? field
     end
 
     def get(find_dat_show)

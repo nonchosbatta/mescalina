@@ -8,6 +8,30 @@
     = javascript_include_tag 'application'
 
   %body
+
+    %div.navbar.navbar-default.navbar-static-top{role: 'navigation'}
+      %div.container
+        %div.navbar-header
+          %button.navbar-toggle{type: 'button', :'data-toggle' => 'collapse', :'data-target' => '.navbar-collapse'}
+            %span.sr-only Toggle navigation
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          %a.navbar-brand{href: '/'} Nonchosbatta
+        %div.navbar-collapse.collapse
+          %ul.nav.navbar-nav
+            %li.dropdown
+              %a.dropdown-toggle{href: '#', :'data-toggle' => :dropdown}
+                Filters
+                %b.caret
+              %ul.dropdown-menu
+                %li.ongoing
+                  %a#ongoing  On going
+                %li.finished
+                  %a#finished Finished
+                %li.dropped
+                  %a#dropped  Dropped
+
     %div.container
       %table#mescalina.table.table-bordered.table-hover
         %tr

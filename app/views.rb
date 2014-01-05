@@ -7,8 +7,9 @@
 #
 #  0. You just DO WHAT THE FUCK YOU WANT TO.
 #++
-require 'view/show'
 require 'view/mescalina'
+require 'view/show'
 require 'view/showinfo'
 require 'view/episode'
 require 'view/episodeinfo'
+require 'view/filter'
