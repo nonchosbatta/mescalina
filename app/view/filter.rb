@@ -15,7 +15,7 @@ class OngoingView < Vienna::View
     url = `window.location.href`
 
     if url.include? '/fansub/'
-      url = url.gsub /\/(ongoing|finished|dropped)/, ''
+      url = url.gsub /\/(ongoing|finished|dropped|planned)/, ''
       `window.location.href = url + '/ongoing'`
     else
       `window.location.href = '#/ongoing'`
@@ -30,7 +30,7 @@ class FinishedView < Vienna::View
     url = `window.location.href`
 
     if url.include? '/fansub/'
-      url = url.gsub /\/(ongoing|finished|dropped)/, ''
+      url = url.gsub /\/(ongoing|finished|dropped|planned)/, ''
       `window.location.href = url + '/finished'`
     else
       `window.location.href = '#/finished'`
@@ -45,10 +45,25 @@ class DroppedView < Vienna::View
     url = `window.location.href`
 
     if url.include? '/fansub/'
-      url = url.gsub /\/(ongoing|finished|dropped)/, ''
+      url = url.gsub /\/(ongoing|finished|dropped|planned)/, ''
       `window.location.href = url + '/dropped'`
     else
       `window.location.href = '#/dropped'`
+    end
+  end
+end
+
+class PlannedView < Vienna::View
+  element '#planned'
+
+  on :click do
+    url = `window.location.href`
+
+    if url.include? '/fansub/'
+      url = url.gsub /\/(ongoing|finished|dropped|planned)/, ''
+      `window.location.href = url + '/planned'`
+    else
+      `window.location.href = '#/planned'`
     end
   end
 end

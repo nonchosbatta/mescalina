@@ -32,6 +32,10 @@ class Mescalina
         @mescalina.load status: :finished
       end
 
+      router.route('/planned') do
+        @mescalina.load status: :planned
+      end
+
       router.route('/fansub/:fansub') do |params|
         @mescalina.load fansub: params[:fansub]
       end
@@ -46,6 +50,10 @@ class Mescalina
 
       router.route('/fansub/:fansub/finished') do |params|
         @mescalina.load fansub: params[:fansub], status: :finished
+      end
+
+      router.route('/fansub/:fansub/planned') do |params|
+        @mescalina.load fansub: params[:fansub], status: :planned
       end
     end
   end

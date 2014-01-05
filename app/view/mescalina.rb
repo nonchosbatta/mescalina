@@ -36,6 +36,10 @@ class MescalinaView < Vienna::View
     dropped = DroppedView.new
     dropped.render
     Element.find('.dropped') << dropped.element
+
+    planned = PlannedView.new
+    planned.render
+    Element.find('.planned') << planned.element
   end
 
   def add_show(show)
