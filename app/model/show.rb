@@ -11,9 +11,8 @@
 class Show < Vienna::Model
   adapter Vienna::LocalAdapter
 
-  attributes :name, :tot_episodes, :fansub, :status, :stub
+  attributes :name, :tot_episodes, :fansub, :status
   attributes :translator, :editor, :checker, :timer, :typesetter, :encoder, :qchecker
-
 
   def info?
     tot_episodes
@@ -35,7 +34,7 @@ class Show < Vienna::Model
     end
 
     def exclude?(field)
-      [:status, :stub].include? field
+      [:status].include? field
     end
 
     def get(find_dat_show)
@@ -48,20 +47,27 @@ class Show < Vienna::Model
 
         if current.any?
           current.each { |show|
-            show.update stub: rand
+            show.update data
           }
         else
           Show.create data
+          Show.get(data).each { |show|
+            Show.get! show.name, ->(res) { Show.make Show.get_fields(res) }
+          }
         end
       }
     end
 
-    def all!(status = :ongoing, fansub = '', on_success = nil, on_failure = nil)
-      Pigro.get "/shows/all/#{status}/#{fansub}", on_success, on_failure
+    def all!(on_success = nil, on_failure = nil)
+      Pigro.get '/shows/all',               on_success, on_failure
     end
 
     def search!(keyword, on_success = nil, on_failure = nil)
-      Pigro.get "/shows/search/#{keyword}",       on_success, on_failure
+      Pigro.get "/shows/search/#{keyword}", on_success, on_failure
+    end
+
+    def get!(show, on_success = nil, on_failure = nil)
+      Pigro.get "/shows/get/#{show}",       on_success, on_failure
     end
   end
 end

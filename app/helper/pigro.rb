@@ -9,7 +9,7 @@
 #++
 
 module Pigro
-  HOST = 'http://pigro.omnivium.it:4567/api/v1'
+  HOST = 'http://pigro.omnivium.it:4567/api'
 
   def self.get(url, on_success = nil, on_failure = nil)
     url = url.start_with?(?/) ? "#{HOST}#{url}" : url

@@ -13,13 +13,16 @@ class MescalinaView < Vienna::View
 
   def initialize
     Show.on(:create) { |show|
-      add_show show
       render
     }
 
     Show.on(:update) { |show|
-      add_show show
-      render
+      can = true
+      $filters.each_pair { |k, v| can = false if show.send(k) != v }
+      if can
+        add_show show
+        render
+      end
     }
 
     ongoing = OngoingView.new
@@ -45,12 +48,9 @@ class MescalinaView < Vienna::View
     Element.find('#mescalina') << view.element
   end
 
-  def load(filters = {})
-    filters[:status] ||= :ongoing
-    filters[:fansub] ||= ''
+  def load(filters = { status: :ongoing })
     $filters = filters
-
     Element.find('.show-row').remove
-    Show.all! filters[:status], filters[:fansub], -> (res) { Show.make Show.get_fields(res), filters }
+    Show.all! -> (res) { Show.make Show.get_fields(res) }
   end
 end
