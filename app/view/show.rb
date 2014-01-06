@@ -33,7 +33,7 @@ class ShowView < Vienna::TemplateView
         `$('#episode').bPopup({
           modalClose: false,
           onClose   : function() { $('.episode-info').remove(); }
-        });`
+         });`
       else
         `$('#episode-error').bPopup();`
       end
