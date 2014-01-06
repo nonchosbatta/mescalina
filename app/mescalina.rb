@@ -20,40 +20,16 @@ class Mescalina
         @mescalina.load
       end
 
-      router.route('/ongoing') do
-        @mescalina.load
-      end
-
-      router.route('/dropped') do
-        @mescalina.load status: :dropped
-      end
-
-      router.route('/finished') do
-        @mescalina.load status: :finished
-      end
-
-      router.route('/planned') do
-        @mescalina.load status: :planned
+      router.route('/:status') do |params|
+        @mescalina.load status: params[:status]
       end
 
       router.route('/fansub/:fansub') do |params|
         @mescalina.load fansub: params[:fansub]
       end
 
-      router.route('/fansub/:fansub/ongoing') do |params|
-        @mescalina.load fansub: params[:fansub]
-      end
-
-      router.route('/fansub/:fansub/dropped') do |params|
-        @mescalina.load fansub: params[:fansub], status: :dropped
-      end
-
-      router.route('/fansub/:fansub/finished') do |params|
-        @mescalina.load fansub: params[:fansub], status: :finished
-      end
-
-      router.route('/fansub/:fansub/planned') do |params|
-        @mescalina.load fansub: params[:fansub], status: :planned
+      router.route('/fansub/:fansub/:status') do |params|
+        @mescalina.load fansub: params[:fansub], status: params[:status]
       end
     end
   end
