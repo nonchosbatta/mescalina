@@ -12,14 +12,13 @@ class ShowInfoView < Vienna::TemplateView
   def initialize(show, field)
     @show  = show
     @field = field.to_sym
-
-    @data  = @show.send @field
   end
 
   def render
-    super    
+    super
 
-    element << (@field == :fansub ? "<a href='/#/fansub/#{@data}'>#{@data}</a>" : @data)
+    data = @show.send @field
+    element << (@field == :fansub ? "<a href='/#/fansub/#{data}'>#{data}</a>" : data)
   end
 
   def tag_name
