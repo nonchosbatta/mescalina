@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'opal'
-gem 'opal-jquery'
-gem 'vienna',     github: 'opal/vienna'
+gem 'opal',           :github => 'opal/opal'
+gem 'opal-jquery',    :github => 'opal/opal-jquery'
+gem 'vienna',         :github => 'opal/vienna'
 gem 'opal-haml'
-gem 'opal-sprockets'

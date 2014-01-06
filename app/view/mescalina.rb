@@ -48,7 +48,6 @@ class MescalinaView < Vienna::View
   def load(filters = {})
     filters[:status] ||= :ongoing
     filters[:fansub] ||= ''
-    $filters = filters
 
     Element.find('.show-row').remove
     Show.all! filters[:status], filters[:fansub], -> (res) { Show.make Show.get_fields(res), filters }

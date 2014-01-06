@@ -14,7 +14,6 @@ class Show < Vienna::Model
   attributes :name, :tot_episodes, :fansub, :status, :stub
   attributes :translator, :editor, :checker, :timer, :typesetter, :encoder, :qchecker
 
-
   def info?
     tot_episodes
   end
