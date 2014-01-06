@@ -54,7 +54,7 @@ class Episode < Vienna::Model
     end
 
     def all!(show, on_success = nil, on_failure = nil)
-      Pigro.get "/shows/get/#{show}/episodes/all", on_success, on_failure
+      Pigro.get "/episodes/#{show}", on_success, on_failure
     end
   end
 end
