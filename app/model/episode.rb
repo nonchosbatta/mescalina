@@ -19,7 +19,7 @@ class Episode < Vienna::Model
   end
 
   def download=(url)
-    @download = (!url || url.strip.empty?) ? ?# : url
+    @download = (!url || url.strip.empty?) ? '' : url
   end
 
   class << self

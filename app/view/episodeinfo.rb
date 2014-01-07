@@ -16,7 +16,7 @@ class EpisodeInfoView < Vienna::TemplateView
   def render
     super
     
-    element << "<td><a href=\"#{@episode.download}\" target=\"_blank\">#{@episode.episode}</a></td>"
+    element << (@episode.download.empty? ? "<td>#{@episode.episode}</td>" : "<td><a href=\"#{@episode.download}\" target=\"_blank\">#{@episode.episode}</a></td>")
     
     element << "<td class=\"#{@episode.translation}\">#{@episode.show.translator}</td>"
     element << "<td class=\"#{@episode.editing}    \">#{@episode.show.editor    }</td>"
