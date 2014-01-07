@@ -36,7 +36,7 @@ class Show < Vienna::Model
 
     def all!(status = :ongoing, fansub = '')
       Database.get("/shows/all/#{status}/#{fansub}") { |shows|
-        shows.each { |res|
+        shows.sort_by { |s| s[:name] }.each { |res|
           show = {}
 
           Show.columns.each { |field|
