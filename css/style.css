@@ -2,31 +2,19 @@ tr:first-child {
   font-weight: bold;
 }
 
+.modal-dialog {
+  width: 50%;
+  height: 50%;
+}
+
 .footer {
   height: 60px;
   text-align: right;
   padding-right: 10px;
 }
 
-.popup {
-  background-color: #fff;
-  border-radius   : 15px;
-  color           : #000;
-  display         : none; 
-  padding         : 20px;
-  min-width       : 400px;
-  min-height      : 180px;
-}
-
 .center {
   text-align: center;
-}
-
-.b-close {
-  cursor  : pointer;
-  position: absolute;
-  right   : 10px;
-  top     : 5px;
 }
 
 .true {

@@ -21,18 +21,19 @@ class ShowView < Vienna::TemplateView
       return
     end
 
+    Element['#episode'].on :'hidden.bs.modal' do
+      Element['.episode-info'].remove
+    end
+
     Episode.all!(@show) { |episodes|
       if episodes.any?
         view = EpisodeView.new episodes
         view.render
         element << view.element
-
-        `$('#episode').bPopup({
-          modalClose: false,
-          onClose   : function() { $('.episode-info').remove(); }
-         });`
+        
+        `$('#episode').modal();`
       else
-        `$('#episode-error').bPopup();`
+        `$('#episode-error').modal();`
       end
     }
   end

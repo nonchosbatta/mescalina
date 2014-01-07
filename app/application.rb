@@ -10,7 +10,6 @@
 require 'opal'
 
 require 'jquery'
-require 'jquery.bpopup'
 require 'bootstrap'
 
 require 'opal-jquery'

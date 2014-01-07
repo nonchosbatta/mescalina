@@ -41,16 +41,20 @@ class Episode < Vienna::Model
         yield episodes
       else
         Database.get("/episodes/#{show.name}") { |episodes|
-          episodes.each { |res|
-            episode = { show: show }
+          if episodes.any?
+            episodes.each { |res|
+              episode = { show: show }
 
-            Episode.columns.each { |field|
-              episode[field.to_sym] = res[field] if res.has_key? field
+              Episode.columns.each { |field|
+                episode[field.to_sym] = res[field] if res.has_key? field
+              }
+
+              Episode.create episode
             }
-
-            Episode.create episode
             yield Episode.of show
-          }
+          else
+            yield []
+          end
         }
       end
     end
