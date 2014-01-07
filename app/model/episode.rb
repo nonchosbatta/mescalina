@@ -23,18 +23,6 @@ class Episode < Vienna::Model
   end
 
   class << self
-    def get_fields(res)
-      Array.new.tap { |data|
-        [res.json].flatten.each { |show|
-          data << Hash.new.tap { |fields|
-            Episode.columns.each { |field|
-              fields[field.to_sym] = show[field] if show.has_key?(field)
-            }
-          }
-        }
-      }
-    end
-
     def of(show)
       Episode.all.select { |episode| episode.belongs_to? show }
     end
@@ -46,15 +34,25 @@ class Episode < Vienna::Model
       }.any?
     end
 
-    def make(show, episodes)
-      episodes.each { |episode|
-        episode[:show] = show
-        Episode.create(episode) unless Episode.exists? episode
-      }
-    end
+    def all!(show)
+      episodes = Episode.of show
 
-    def all!(show, on_success = nil, on_failure = nil)
-      Pigro.get "/episodes/#{show}", on_success, on_failure
+      if episodes.any?
+        yield episodes
+      else
+        Database.get("/episodes/#{show.name}") { |episodes|
+          episodes.each { |res|
+            episode = { show: show }
+
+            Episode.columns.each { |field|
+              episode[field.to_sym] = res[field] if res.has_key? field
+            }
+
+            Episode.create episode
+            yield Episode.of show
+          }
+        }
+      end
     end
   end
 end

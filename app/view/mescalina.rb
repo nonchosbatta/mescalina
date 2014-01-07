@@ -12,37 +12,19 @@ class MescalinaView < Vienna::View
   element '#mescalina'
 
   def initialize
-    Show.on(:create) { |show|
-      add_show show
-      render
+    %w(ongoing finished dropped planned).each { |id|
+      Element["##{id}"].on :click do
+        url = `window.location.href`
+
+        if url.include? '/fansub/'
+          url = url.gsub /\/(ongoing|finished|dropped|planned)/, ''
+          str = "#{url}/#{id}"
+        else
+          str = "#/#{id}"
+        end
+        `window.location.href = str`
+      end
     }
-
-    Show.on(:update) { |show|
-      add_show show
-      render
-    }
-
-    ongoing = OngoingView.new
-    ongoing.render
-    Element.find('.ongoing') << ongoing.element
-
-    finished = FinishedView.new
-    finished.render
-    Element.find('.finished') << finished.element
-
-    dropped = DroppedView.new
-    dropped.render
-    Element.find('.dropped') << dropped.element
-
-    planned = PlannedView.new
-    planned.render
-    Element.find('.planned') << planned.element
-  end
-
-  def add_show(show)
-    view = ShowView.new show
-    view.render
-    Element.find('#mescalina') << view.element
   end
 
   def load(filters = {})
@@ -50,6 +32,11 @@ class MescalinaView < Vienna::View
     filters[:fansub] ||= ''
 
     Element.find('.show-row').remove
-    Show.all! filters[:status], filters[:fansub], -> (res) { Show.make Show.get_fields(res), filters }
+
+    Show.all!(filters[:status], filters[:fansub]) { |show|
+      view = ShowView.new show
+      view.render
+      Element.find('#mescalina') << view.element
+    }
   end
 end

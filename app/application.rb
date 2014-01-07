@@ -20,7 +20,7 @@ require 'vienna'
 require 'vienna/adapters/local'
 require 'vienna/template_view'
 
-require 'helpers'
+require 'database'
 require 'models'
 require 'views'
 require 'mescalina'

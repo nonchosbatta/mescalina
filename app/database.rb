@@ -7,4 +7,15 @@
 #
 #  0. You just DO WHAT THE FUCK YOU WANT TO.
 #++
-require 'helper/pigro'
+
+module Database
+  HOST = 'http://pigro.omnivium.it:4567/api/v1'
+
+  def self.get(url)
+    url = url.start_with?(?/) ? "#{HOST}#{url}" : url
+    
+    HTTP.get(url) do |res|
+      yield [res.json].flatten
+    end
+  end
+end

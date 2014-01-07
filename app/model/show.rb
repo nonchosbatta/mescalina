@@ -21,46 +21,37 @@ class Show < Vienna::Model
     alias_method :has_infos?, :info?
 
   class << self
-    def get_fields(res)
-      Array.new.tap { |data|
-        [res.json].flatten.each { |show|
-          data << Hash.new.tap { |fields|
-            Show.columns.each { |field|
-              fields[field.to_sym] = show[field] if show.has_key?(field)
-            }
-          }
-        }
-      }
-    end
-
     def exclude?(field)
       [:status, :stub].include? field
     end
 
     def get(find_dat_show)
-      Show.all.select { |show| show[:name] == find_dat_show[:name] }
+      shows = Show.all.select { |show| show[:name] == find_dat_show[:name] }
+      shows.any? ? shows.first : nil
     end
 
-    def make(fields)
-      fields.sort_by { |s| s[:name] }.each { |data|
-        current = Show.get data
+    def exists?(show)
+      !!Show.get(show)
+    end
 
-        if current.any?
-          current.each { |show|
-            show.update stub: rand
+    def all!(status = :ongoing, fansub = '')
+      Database.get("/shows/all/#{status}/#{fansub}") { |shows|
+        shows.each { |res|
+          show = {}
+
+          Show.columns.each { |field|
+            show[field.to_sym] = res[field] if res.has_key? field
           }
-        else
-          Show.create data
-        end
+
+          if Show.exists? show
+            Show.get(show).update stub: rand
+          else
+            Show.create show
+          end
+
+          yield Show.get show
+        }
       }
-    end
-
-    def all!(status = :ongoing, fansub = '', on_success = nil, on_failure = nil)
-      Pigro.get "/shows/all/#{status}/#{fansub}", on_success, on_failure
-    end
-
-    def search!(keyword, on_success = nil, on_failure = nil)
-      Pigro.get "/shows/search/#{keyword}",       on_success, on_failure
     end
   end
 end

@@ -21,10 +21,7 @@ class ShowView < Vienna::TemplateView
       return
     end
 
-    Episode.all! @show.name, -> (res) {
-      Episode.make @show, Episode.get_fields(res)
-
-      episodes = Episode.of @show
+    Episode.all!(@show) { |episodes|
       if episodes.any?
         view = EpisodeView.new episodes
         view.render
@@ -45,6 +42,7 @@ class ShowView < Vienna::TemplateView
 
     Show.columns.each { |field|
       next if Show.exclude? field
+      
       view = ShowInfoView.new @show, field
       view.render
       element << view.element
