@@ -21,13 +21,9 @@ class ShowView < Vienna::TemplateView
       return
     end
 
-    Element['#episode'].on :'hidden.bs.modal' do
-      Element['.episode-info'].remove
-    end
-
-    Episode.all!(@show) { |episodes|
-      if episodes.any?
-        view = EpisodeView.new episodes
+    Episode.all!(@show) { |episode|
+      if episode
+        view = EpisodeView.new episode
         view.render
         element << view.element
         
@@ -41,12 +37,22 @@ class ShowView < Vienna::TemplateView
   def render
     super
 
-    Show.columns.each { |field|
-      next if Show.exclude? field
-      
-      view = ShowInfoView.new @show, field
-      view.render
-      element << view.element
+    Episode.all!(@show) { |episodes|
+      episode = episodes.last
+
+      Show.columns.each { |field|
+        next if Show.exclude? field
+        
+        view = ShowInfoView.new @show, field
+        view.render
+        
+        if Episode.status? field
+          key = Episode.to_task field
+          view.element.add_class episode.send(key).to_s if key
+        end
+
+        element << view.element
+      }
     }
   end
 

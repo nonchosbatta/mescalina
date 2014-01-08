@@ -31,12 +31,16 @@ class MescalinaView < Vienna::View
     filters[:status] ||= :ongoing
     filters[:fansub] ||= ''
 
-    Element.find('.show-row').remove
+    Element['.show-row'].remove
+
+    Element['#episode'].on :'hidden.bs.modal' do
+      Element['.episode-info'].remove
+    end
 
     Show.all!(filters[:status], filters[:fansub]) { |show|
       view = ShowView.new show
       view.render
-      Element.find('#mescalina') << view.element
+      Element['#mescalina'] << view.element
     }
   end
 end

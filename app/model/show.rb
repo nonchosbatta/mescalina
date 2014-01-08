@@ -22,7 +22,7 @@ class Show < Vienna::Model
 
   class << self
     def exclude?(field)
-      [:status, :stub].include? field
+      [ :status, :stub ].include? field
     end
 
     def get(find_dat_show)
@@ -37,10 +37,10 @@ class Show < Vienna::Model
     def all!(status = :ongoing, fansub = '')
       Database.get("/shows/all/#{status}/#{fansub}") { |shows|
         shows.sort_by { |s| s[:name] }.each { |res|
-          show = {}
-
-          Show.columns.each { |field|
-            show[field.to_sym] = res[field] if res.has_key? field
+          show = {}.tap { |s|
+            Show.columns.each { |field|
+              s[field.to_sym] = res[field] if res.has_key? field
+            }
           }
 
           if Show.exists? show
