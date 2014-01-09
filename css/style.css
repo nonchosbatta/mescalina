@@ -25,3 +25,7 @@ tr:first-child {
   background: none repeat scroll 0 0 rgba(247, 47, 55, 0.8)   !important;
   color     :                        rgba(255, 255, 255, 0.8) !important;
 }
+
+.navbar-search {
+  max-width: 250px;
+}
