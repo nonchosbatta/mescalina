@@ -16,8 +16,7 @@ class ShowView < Vienna::TemplateView
   on :click do |evt|
     target = evt.target
     if target.tag_name == ?a
-      href = target['href']
-      `window.location.href = href`
+      Vienna::Router.new.navigate target['href']
       return
     end
 

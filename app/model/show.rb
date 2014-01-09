@@ -53,5 +53,25 @@ class Show < Vienna::Model
         }
       }
     end
+
+    def search!(show)
+      Database.get("/shows/search/#{show}") { |shows|
+        shows.sort_by { |s| s[:name] }.each { |res|
+          show = {}
+
+          Show.columns.each { |field|
+            show[field.to_sym] = res[field] if res.has_key? field
+          }
+
+          if Show.exists? show
+            Show.get(show).update stub: rand
+          else
+            Show.create show
+          end
+
+          yield Show.get show
+        }
+      }
+    end
   end
 end

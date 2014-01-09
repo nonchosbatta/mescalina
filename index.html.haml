@@ -29,6 +29,14 @@
                   %a#dropped  Dropped
                 %li.planned
                   %a#planned  Planned
+          %ul.nav.navbar-nav.navbar-right
+            %li
+              %form.navbar-form
+                %div.input-group
+                  %input.form-control{type: 'text', id: 'keyword', placeholder: 'search'}
+                    %div.input-group-btn
+                      %button.btn.btn-default#search
+                        %span.glyphicon.glyphicon-search
 
     %div.container
       %table#mescalina.table.table-bordered.table-hover
