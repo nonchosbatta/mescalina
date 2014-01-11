@@ -39,7 +39,7 @@ class ShowView < Vienna::TemplateView
 
   def render
     super
-
+    
     Show.columns.each { |field|
       next if Show.exclude? field
       

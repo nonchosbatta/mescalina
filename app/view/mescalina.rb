@@ -32,6 +32,7 @@ class MescalinaView < Vienna::View
       view = ShowView.new show
       view.render
       Element.find('#mescalina') << view.element
+      get_preview show
     }
   end
 
@@ -39,7 +40,22 @@ class MescalinaView < Vienna::View
     Show.all!(status, filters) { |show|
       view = ShowView.new show
       view.render
-      Element.find('#mescalina') << view.element
+      Element['#mescalina'] << view.element
+      get_preview show
+    }
+  end
+
+  def get_preview(show)
+    Episode.all!(show) { |episode|
+      next if episode.empty?
+      
+      Element['.show-row'].each { |row|
+        next if row.find('.name').text != show.name
+
+        Show.roles.each { |role|
+          row.find(".#{role}").add_class episode.last.send(Show.to_task(role)).to_s
+        }
+      }
     }
   end
 

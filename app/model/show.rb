@@ -24,9 +24,14 @@ class Show < Vienna::Model
     def roles
       [ :translator,  :editor,  :checker,  :timer,  :typesetter,  :encoder,  :qchecker  ]
     end
+
+    def to_task(role)
+      index = Show.roles.index role
+      index ? Episode.tasks[index] : nil
+    end
     
     def exclude?(field)
-      [:status, :stub].include? field
+      [ :status, :stub ].include? field
     end
 
     def get(find_dat_show)

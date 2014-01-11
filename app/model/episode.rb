@@ -23,6 +23,15 @@ class Episode < Vienna::Model
   end
 
   class << self
+    def tasks
+      [ :translation, :editing, :checking, :timing, :typesetting, :encoding, :qchecking ]
+    end
+
+    def to_role(task)
+      index = Episode.tasks.index task
+      index ? Show.roles[index] : nil
+    end
+    
     def of(show)
       Episode.all.select { |episode| episode.belongs_to? show }
     end

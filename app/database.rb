@@ -9,7 +9,7 @@
 #++
 
 module Database
-  HOST = 'http://pigro.omnivium.it:4567/api/v1'
+  HOST = 'http://pigro.omnivium.it/api/v1'
 
   def self.get(url)
     url = url.start_with?(?/) ? "#{HOST}#{url}" : url

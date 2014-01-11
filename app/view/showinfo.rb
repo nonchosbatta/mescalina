@@ -30,4 +30,8 @@ class ShowInfoView < Vienna::TemplateView
   def tag_name
     :td
   end
+
+  def class_name
+    @field.to_s
+  end
 end
