@@ -16,7 +16,7 @@ class MescalinaView < Vienna::View
       Element["##{id}"].on :click do
         url = `window.location.href`
 
-        if url.include? '/fansub/'
+        if url.include?('/fansub/') || url.include?('/users/')
           url = url.gsub /\/(ongoing|finished|dropped|planned)/, ''
           str = "#{url}/#{id}"
         else
@@ -35,8 +35,8 @@ class MescalinaView < Vienna::View
     }
   end
 
-  def get_shows(status, fansub)
-    Show.all!(status, fansub) { |show|
+  def get_shows(status, filters)
+    Show.all!(status, filters) { |show|
       view = ShowView.new show
       view.render
       Element.find('#mescalina') << view.element
@@ -45,14 +45,13 @@ class MescalinaView < Vienna::View
 
   def load(what, filters = {})
     filters[:status] ||= :ongoing
-    filters[:fansub] ||= ''
 
     Element.find('.show-row').remove
     SearchView.new.element
 
     what = :get if !filters.has_key?(:keyword) || filters[:keyword].empty?
     case what
-      when :get  then get_shows  filters[:status], filters[:fansub]
+      when :get  then get_shows  filters
       when :find then find_shows filters[:keyword]
     end
   end
