@@ -35,23 +35,13 @@ class ShowView < Vienna::TemplateView
 
   def render
     super
-
-    Episode.all!(@show) { |episodes|
-      episode = episodes.last
-
-      Show.columns.each { |field|
-        next if Show.exclude? field
-        
-        view = ShowInfoView.new @show, field
-        view.render
-        
-        if Episode.status? field
-          key = Episode.to_task field
-          view.element.add_class episode.send(key).to_s if key
-        end
-
-        element << view.element
-      }
+    
+    Show.columns.each { |field|
+      next if Show.exclude? field
+      
+      view = ShowInfoView.new @show, field
+      view.render
+      element << view.element
     }
   end
 

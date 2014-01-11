@@ -27,31 +27,35 @@ class MescalinaView < Vienna::View
     }
   end
 
-<<<<<<< HEAD
-  def load(filters = {})
-    filters[:status] ||= :ongoing
-    filters[:fansub] ||= ''
-
-    Element['.show-row'].remove
-
-    Element['#episode'].on :'hidden.bs.modal' do
-      Element['.episode-info'].remove
-    end
-=======
   def find_shows(keyword)
     Show.search!(keyword) { |show|
       view = ShowView.new show
       view.render
       Element.find('#mescalina') << view.element
+      get_preview show
     }
   end
->>>>>>> master
 
   def get_shows(status, filters)
     Show.all!(status, filters) { |show|
       view = ShowView.new show
       view.render
       Element['#mescalina'] << view.element
+      get_preview show
+    }
+  end
+
+  def get_preview(show)
+    Episode.all!(show) { |episode|
+      next if episode.empty?
+      
+      Element['.show-row'].each { |row|
+        next if row.find('.name').text != show.name
+
+        Show.roles.each { |role|
+          row.find(".#{role}").add_class episode.last.send(Show.to_task(role)).to_s
+        }
+      }
     }
   end
 

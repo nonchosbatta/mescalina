@@ -27,22 +27,9 @@ class Episode < Vienna::Model
       [ :translation, :editing, :checking, :timing, :typesetting, :encoding, :qchecking ]
     end
 
-    def roles
-      [ :translator,  :editor,  :checker,  :timer,  :typesetter,  :encoder,  :qchecker  ]
-    end
-
-    def status?(status)
-      (tasks + roles).include? status
-    end
-
-    def to_task(role)
-      index = roles.index role
-      index ? tasks[index] : nil
-    end
-
     def to_role(task)
-      index = tasks.index task
-      index ? roles[index] : nil
+      index = Episode.tasks.index task
+      index ? Show.roles[index] : nil
     end
 
     def of(show)
