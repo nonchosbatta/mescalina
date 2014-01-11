@@ -24,6 +24,11 @@ class Show < Vienna::Model
     def roles
       [ :translator,  :editor,  :checker,  :timer,  :typesetter,  :encoder,  :qchecker  ]
     end
+
+    def to_task(role)
+      index = Show.roles.index role
+      index ? Episode.tasks[index] : nil
+    end
     
     def exclude?(field)
       [ :status, :stub ].include? field
@@ -71,10 +76,10 @@ class Show < Vienna::Model
     def search!(show)
       Database.get("/shows/search/#{show}") { |shows|
         shows.sort_by { |s| s[:name] }.each { |res|
-          show = {}.tap { |s|
-            Show.columns.each { |field|
-              s[field.to_sym] = res[field] if res.has_key? field
-            }
+          show = {}
+
+          Show.columns.each { |field|
+            show[field.to_sym] = res[field] if res.has_key? field
           }
 
           if Show.exists? show

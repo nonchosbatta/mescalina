@@ -27,44 +27,38 @@ class Episode < Vienna::Model
       [ :translation, :editing, :checking, :timing, :typesetting, :encoding, :qchecking ]
     end
 
-    def roles
-      [ :translator,  :editor,  :checker,  :timer,  :typesetter,  :encoder,  :qchecker  ]
-    end
-
-    def status?(status)
-      (tasks + roles).include? status
-    end
-
-    def to_task(role)
-      index = roles.index role
-      index ? tasks[index] : nil
-    end
-
     def to_role(task)
-      index = tasks.index task
-      index ? roles[index] : nil
+      index = Episode.tasks.index task
+      index ? Show.roles[index] : nil
     end
-
+    
     def of(show)
       Episode.all.select { |episode| episode.belongs_to? show }
     end
 
-    def exists?(show)
-      Episode.of(show).any?
+    def exists?(dat_episode)
+      Episode.all.select { |episode|
+        episode.show.name == dat_episode[:show].name &&
+        episode.episode   == dat_episode[:episode]
+      }.any?
     end
 
     def all!(show)
-      if Episode.exists? show
-        yield Episode.of show
+      episodes = Episode.of show
+
+      if episodes.any?
+        yield episodes
       else
         Database.get("/episodes/#{show.name}") { |episodes|
           if episodes.any?
             episodes.each { |res|
-              Episode.create({ show: show }.tap { |episode|
-                Episode.columns.each { |field|
-                  episode[field.to_sym] = res[field] if res.has_key? field
-                }
-              })
+              episode = { show: show }
+
+              Episode.columns.each { |field|
+                episode[field.to_sym] = res[field] if res.has_key? field
+              }
+
+              Episode.create episode
             }
             yield Episode.of show
           else
