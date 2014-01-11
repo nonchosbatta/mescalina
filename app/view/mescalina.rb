@@ -40,7 +40,7 @@ class MescalinaView < Vienna::View
     Show.all!(status, filters) { |show|
       view = ShowView.new show
       view.render
-      Element.find('#mescalina') << view.element
+      Element['#mescalina'] << view.element
       get_preview show
     }
   end
