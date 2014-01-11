@@ -5,6 +5,8 @@
     %title Nonchosbatta
     %meta(http-equiv="X-UA-Compatible" content="IE=edge,chrome=1")
     %link(rel="stylesheet" href="/css/bootstrap.css")
+    %link(rel="stylesheet" href="/css/bootstrap-modal-bs3patch.css")
+    %link(rel="stylesheet" href="/css/bootstrap-modal.css")
     %link(rel="stylesheet" href="/css/style.css")
     = javascript_include_tag 'application'
 
@@ -52,26 +54,28 @@
           %td Encoder
           %td QChecker
 
-      %div#episode.modal.fade{tabindex: '-1', role: 'dialog', :'aria-hidden' => true}
-        %div.modal-dialog
-          %div.modal-content
-            %div.modal-body
-              %table#episode-info.table.table-bordered.table-hover
-                %tr
-                  %td Episode
-                  %td Translation
-                  %td Editing
-                  %td Checking
-                  %td Timing
-                  %td Typesetting
-                  %td Encoding
-                  %td QChecking
+      %div#episode.modal.fade{tabindex: '-1', role: 'dialog', :'aria-hidden' => true, :'data-width' => '820'}
+        %div.modal-header
+          %button.close{type: 'button', :'data-dismiss' => 'modal', :'aria-hidden' => 'true'}×
+          %h3#episode-title
+        %div.modal-body
+          %table#episode-info.table.table-bordered.table-hover
+            %tr
+              %td Episode
+              %td Translation
+              %td Editing
+              %td Checking
+              %td Timing
+              %td Typesetting
+              %td Encoding
+              %td QChecking
 
       %div#episode-error.modal.fade{tabindex: '-1', role: 'dialog', :'aria-hidden' => true}
-        %div.modal-dialog
-          %div.modal-content
-            %div.modal-body
-              %p No episodes found.
+        %div.modal-header
+          %button.close{type: 'button', :'data-dismiss' => 'modal', :'aria-hidden' => 'true'}×
+          %h3 No episodes found.
+        %div.modal-body
+          %p No episodes found.
 
     %div.footer
       %p
