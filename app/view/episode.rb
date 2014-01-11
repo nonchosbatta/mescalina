@@ -15,7 +15,9 @@ class EpisodeView < Vienna::TemplateView
 
   def render
     super
-
+    
+    Element.find('#episode-title').html @episode.first.show.name
+    
     @episode.each { |episode|
       view = EpisodeInfoView.new episode
       view.render

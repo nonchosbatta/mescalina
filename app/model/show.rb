@@ -21,6 +21,10 @@ class Show < Vienna::Model
     alias_method :has_infos?, :info?
 
   class << self
+    def roles
+      [ :translator,  :editor,  :checker,  :timer,  :typesetter,  :encoder,  :qchecker  ]
+    end
+    
     def exclude?(field)
       [ :status, :stub ].include? field
     end
@@ -34,8 +38,38 @@ class Show < Vienna::Model
       !!Show.get(show)
     end
 
-    def all!(status = :ongoing, fansub = '')
-      Database.get("/shows/all/#{status}/#{fansub}") { |shows|
+    def all!(filters)
+      if filters.has_key?    :fansub
+        options = "/fansubs/#{filters[:fansub]}"
+      elsif filters.has_key? :user
+        if filters.has_key?  :role
+          options = "/users/#{filters[:user]}/#{filters[:role]}"
+        else
+          options = "/users/#{filters[:user]}"
+        end
+      end
+
+      Database.get("/#{options}/shows/all/#{filters[:status]}") { |shows|
+        shows.sort_by { |s| s[:name] }.each { |res|
+          show = {}
+
+          Show.columns.each { |field|
+            show[field.to_sym] = res[field] if res.has_key? field
+          }
+
+          if Show.exists? show
+            Show.get(show).update stub: rand
+          else
+            Show.create show
+          end
+
+          yield Show.get show
+        }
+      }
+    end
+
+    def search!(show)
+      Database.get("/shows/search/#{show}") { |shows|
         shows.sort_by { |s| s[:name] }.each { |res|
           show = {}.tap { |s|
             Show.columns.each { |field|

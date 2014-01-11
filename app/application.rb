@@ -11,6 +11,8 @@ require 'opal'
 
 require 'jquery'
 require 'bootstrap'
+require 'bootstrap-modal'
+require 'bootstrap-modalmanager'
 
 require 'opal-jquery'
 require 'opal-haml'

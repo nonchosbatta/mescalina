@@ -18,7 +18,13 @@ class ShowInfoView < Vienna::TemplateView
     super
 
     data = @show.send @field
-    element << (@field == :fansub ? "<a href='/#/fansub/#{data}'>#{data}</a>" : data)
+    if @field == :fansub
+      element << "<a href='/#/fansubs/#{data}'>#{data}</a>"
+    elsif Show.roles.include? @field
+      element << "<a href='/#/users/#{data}/#{@field}'>#{data}</a>"
+    else
+      element << data
+    end
   end
 
   def tag_name
