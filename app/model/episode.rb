@@ -11,7 +11,7 @@
 class Episode < Vienna::Model
   adapter Vienna::LocalAdapter
 
-  attributes :download,    :episode, :show
+  attributes :download,    :episode, :show,     :show_name
   attributes :translation, :editing, :checking, :timing, :typesetting, :encoding, :qchecking
 
   def belongs_to?(show)
@@ -41,6 +41,27 @@ class Episode < Vienna::Model
         episode.show.name == dat_episode[:show].name &&
         episode.episode   == dat_episode[:episode]
       }.any?
+    end
+
+    def latest!(status = :ongoing)
+      Database.get("/shows/last/#{status}") { |episodes|
+        if episodes.any?
+          last_episode = []
+          episodes.each { |res|
+            episode = {}
+            
+            Episode.columns.each { |field|
+              episode[field.to_sym] = res[field] if res.has_key? field
+            }
+
+            last_episode << Episode.new(episode)
+          }
+
+          yield last_episode
+        else
+          yield []
+        end
+      }
     end
 
     def all!(show)

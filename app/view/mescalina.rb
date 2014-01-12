@@ -27,33 +27,35 @@ class MescalinaView < Vienna::View
     }
   end
 
-  def find_shows(keyword)
-    Show.search!(keyword) { |show|
+  def find_shows(filters)
+    Show.search!(filters[:keyword]) { |show|
       view = ShowView.new show
       view.render
       Element.find('#mescalina') << view.element
-      get_preview show
     }
+    get_preview filters[:status]
   end
 
-  def get_shows(status, filters)
-    Show.all!(status, filters) { |show|
+  def get_shows(filters)
+    Show.all!(filters) { |show|
       view = ShowView.new show
       view.render
       Element['#mescalina'] << view.element
-      get_preview show
     }
+    get_preview filters[:status]
   end
 
-  def get_preview(show)
-    Episode.all!(show) { |episode|
-      next if episode.empty?
+  def get_preview(status)
+    Episode.latest!(status) { |episodes|
+      next if episodes.empty?
       
-      Element['.show-row'].each { |row|
-        next if row.find('.name').text != show.name
+      episodes.each { |episode|
+        Element['.show-row'].each { |row|
+          next if row.find('.name').text != episode.show_name
 
-        Show.roles.each { |role|
-          row.find(".#{role}").add_class episode.last.send(Show.to_task(role)).to_s
+          Show.roles.each { |role|
+            row.find(".#{role}").add_class episode.send(Show.to_task(role)).to_s
+          }
         }
       }
     }
@@ -68,7 +70,7 @@ class MescalinaView < Vienna::View
     what = :get if !filters.has_key?(:keyword) || filters[:keyword].empty?
     case what
       when :get  then get_shows  filters
-      when :find then find_shows filters[:keyword]
+      when :find then find_shows filters
     end
   end
 end
