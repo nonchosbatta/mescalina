@@ -16,45 +16,35 @@ class MescalinaView < Vienna::View
       Element["##{id}"].on :click do
         url = `window.location.href`
 
-        if url.include?('/fansub/') || url.include?('/users/')
+        if url.include?('/fansubs/') || url.include?('/users/')
           url = url.gsub /\/(ongoing|finished|dropped|planned)/, ''
           str = "#{url}/#{id}"
+        elsif url.include? '/search/'
+          str = false           
         else
           str = "#/#{id}"
         end
-        `window.location.href = str`
+        `window.location.href = str` if str
       end
     }
   end
 
-  def find_shows(keyword)
-    Show.search!(keyword) { |show|
-      view = ShowView.new show
-      view.render
-      Element.find('#mescalina') << view.element
-      get_preview show
+  def find_shows(filters)
+    Episode.latest!(filters[:status]) { |episodes|
+      Show.search!(filters[:keyword]) { |show|
+        view = ShowView.new show, episodes.select { |ep| ep.belongs_to? show }.first
+        view.render
+        Element['#mescalina'] << view.element
+      }
     }
   end
 
-  def get_shows(status, filters)
-    Show.all!(status, filters) { |show|
-      view = ShowView.new show
-      view.render
-      Element['#mescalina'] << view.element
-      get_preview show
-    }
-  end
-
-  def get_preview(show)
-    Episode.all!(show) { |episode|
-      next if episode.empty?
-      
-      Element['.show-row'].each { |row|
-        next if row.find('.name').text != show.name
-
-        Show.roles.each { |role|
-          row.find(".#{role}").add_class episode.last.send(Show.to_task(role)).to_s
-        }
+  def get_shows(filters)
+    Episode.latest!(filters[:status]) { |episodes|
+      Show.all!(filters) { |show|
+        view = ShowView.new show, episodes.select { |ep| ep.belongs_to? show }.first
+        view.render
+        Element['#mescalina'] << view.element
       }
     }
   end
@@ -68,7 +58,7 @@ class MescalinaView < Vienna::View
     what = :get if !filters.has_key?(:keyword) || filters[:keyword].empty?
     case what
       when :get  then get_shows  filters
-      when :find then find_shows filters[:keyword]
+      when :find then find_shows filters
     end
   end
 end
