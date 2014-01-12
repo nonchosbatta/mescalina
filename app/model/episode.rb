@@ -15,7 +15,7 @@ class Episode < Vienna::Model
   attributes :translation, :editing, :checking, :timing, :typesetting, :encoding, :qchecking
 
   def belongs_to?(show)
-    @show.name == show.name
+    @show_name == show.name
   end
 
   def download=(url)
@@ -47,7 +47,7 @@ class Episode < Vienna::Model
       Database.get("/shows/last/#{status}") { |episodes|
         if episodes.any?
           last_episode = []
-          episodes.each { |res|
+          episodes.sort_by { |s| s[:show_name] }.each { |res|
             episode = {}
             
             Episode.columns.each { |field|

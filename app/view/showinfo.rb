@@ -9,9 +9,10 @@
 #++
 
 class ShowInfoView < Vienna::TemplateView
-  def initialize(show, field)
-    @show  = show
-    @field = field.to_sym
+  def initialize(show, field, episode)
+    @show    = show
+    @field   = field.to_sym
+    @episode = episode
   end
 
   def render
@@ -22,6 +23,7 @@ class ShowInfoView < Vienna::TemplateView
       element << "<a href='/#/fansubs/#{data}'>#{data}</a>"
     elsif Show.roles.include? @field
       element << "<a href='/#/users/#{data}/#{@field}'>#{data}</a>"
+      element.add_class @episode.send(Show.to_task(@field)).to_s
     else
       element << data
     end

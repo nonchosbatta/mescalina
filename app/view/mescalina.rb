@@ -16,47 +16,35 @@ class MescalinaView < Vienna::View
       Element["##{id}"].on :click do
         url = `window.location.href`
 
-        if url.include?('/fansub/') || url.include?('/users/')
+        if url.include?('/fansubs/') || url.include?('/users/')
           url = url.gsub /\/(ongoing|finished|dropped|planned)/, ''
           str = "#{url}/#{id}"
+        elsif url.include? '/search/'
+          str = false           
         else
           str = "#/#{id}"
         end
-        `window.location.href = str`
+        `window.location.href = str` if str
       end
     }
   end
 
   def find_shows(filters)
-    Show.search!(filters[:keyword]) { |show|
-      view = ShowView.new show
-      view.render
-      Element.find('#mescalina') << view.element
+    Episode.latest!(filters[:status]) { |episodes|
+      Show.search!(filters[:keyword]) { |show|
+        view = ShowView.new show, episodes.select { |ep| ep.belongs_to? show }.first
+        view.render
+        Element['#mescalina'] << view.element
+      }
     }
-    get_preview filters[:status]
   end
 
   def get_shows(filters)
-    Show.all!(filters) { |show|
-      view = ShowView.new show
-      view.render
-      Element['#mescalina'] << view.element
-    }
-    get_preview filters[:status]
-  end
-
-  def get_preview(status)
-    Episode.latest!(status) { |episodes|
-      next if episodes.empty?
-      
-      episodes.each { |episode|
-        Element['.show-row'].each { |row|
-          next if row.find('.name').text != episode.show_name
-
-          Show.roles.each { |role|
-            row.find(".#{role}").add_class episode.send(Show.to_task(role)).to_s
-          }
-        }
+    Episode.latest!(filters[:status]) { |episodes|
+      Show.all!(filters) { |show|
+        view = ShowView.new show, episodes.select { |ep| ep.belongs_to? show }.first
+        view.render
+        Element['#mescalina'] << view.element
       }
     }
   end

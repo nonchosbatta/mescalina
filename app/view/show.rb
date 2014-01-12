@@ -9,8 +9,9 @@
 #++
 
 class ShowView < Vienna::TemplateView
-  def initialize(show)
-    @show = show
+  def initialize(show, episode)
+    @show    = show
+    @episode = episode
   end
 
   on :click do |evt|
@@ -43,7 +44,7 @@ class ShowView < Vienna::TemplateView
     Show.columns.each { |field|
       next if Show.exclude? field
       
-      view = ShowInfoView.new @show, field
+      view = ShowInfoView.new @show, field, @episode
       view.render
       element << view.element
     }
