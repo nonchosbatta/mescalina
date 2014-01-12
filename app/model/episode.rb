@@ -44,7 +44,7 @@ class Episode < Vienna::Model
     end
 
     def latest!(status = :ongoing)
-      Database.get("/shows/last/#{status}") { |episodes|
+      Database.get("/episodes/last/#{status}") { |episodes|
         if episodes.any?
           last_episode = []
           episodes.sort_by { |s| s[:show_name] }.each { |res|
