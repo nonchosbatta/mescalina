@@ -23,7 +23,7 @@ class ShowInfoView < Vienna::TemplateView
       element << "<a href='/#/fansubs/#{data}'>#{data}</a>"
     elsif Show.roles.include? @field
       element << "<a href='/#/users/#{data}/#{@field}'>#{data}</a>"
-      element.add_class @episode.send(Show.to_task(@field)).to_s
+      element.add_class(@episode.send(Show.to_task(@field)).to_s) if @episode
     else
       element << data
     end
