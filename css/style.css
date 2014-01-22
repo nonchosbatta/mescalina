@@ -23,21 +23,40 @@ h3 {
   text-align   : right;
 }
 
-.nope {
-  background-color: #F2DEDE;
+td.nope {
+  background-color: rgb(255,  87,  87);
 }
 
-.done {
-  background-color: #DFF0D8;
+td.done {
+  background-color: rgb( 89, 192, 109);
 }
 
-.ongoing {
-  background-color: #FCF8E3;
+td.ongoing {
+  background-color: rgb(152, 203, 251);
 }
 
-.nope    a, .nope    a:hover, .nope    a:visited,
-.done    a, .done    a:hover, .done    a:visited,
-.ongoing a, .ongoing a:hover, .ongoing a:visited
+td.nope    a, td.nope    a:hover, td.nope    a:visited,
+td.done    a, td.done    a:hover, td.done    a:visited,
+td.ongoing a, td.ongoing a:hover, td.ongoing a:visited
 {
   color: black;
+}
+
+.table-hover tbody tr:hover td.nope {
+  background-color: rgb(255,  87,  87);
+  opacity: 0.7;
+}
+
+.table-hover tbody tr:hover td.done {
+  background-color: rgb( 89, 192, 109);
+  opacity: 0.7;
+}
+
+.table-hover tbody tr:hover td.ongoing {
+  background-color: rgb(152, 203, 251);
+  opacity: 0.7;
+}
+
+.table-hover tbody tr:hover td {
+  box-shadow: 0 0 0 1px white;
 }
