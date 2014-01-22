@@ -23,20 +23,40 @@ h3 {
   text-align   : right;
 }
 
-.true {
-  background: none repeat scroll 0 0 rgba(31, 191, 55, 0.9) !important;
+td.nope {
+  background-color: rgb(255,  87,  87);
 }
 
-.false {
-  background: none repeat scroll 0 0 rgba(247, 47, 55, 0.8)   !important;
-  color     :                        rgba(255, 255, 255, 0.8) !important;
+td.done {
+  background-color: rgb( 89, 192, 109);
 }
 
-.true  a,
-.false a,
-.true  a:hover,
-.false a:hover,
-.true  a:visited,
-.false a:visited {
+td.ongoing {
+  background-color: rgb(152, 203, 251);
+}
+
+td.nope    a, td.nope    a:hover, td.nope    a:visited,
+td.done    a, td.done    a:hover, td.done    a:visited,
+td.ongoing a, td.ongoing a:hover, td.ongoing a:visited
+{
   color: black;
+}
+
+.table-hover tbody tr:hover td.nope {
+  background-color: rgb(255,  87,  87);
+  opacity: 0.7;
+}
+
+.table-hover tbody tr:hover td.done {
+  background-color: rgb( 89, 192, 109);
+  opacity: 0.7;
+}
+
+.table-hover tbody tr:hover td.ongoing {
+  background-color: rgb(152, 203, 251);
+  opacity: 0.7;
+}
+
+.table-hover tbody tr:hover td {
+  box-shadow: 0 0 0 1px white;
 }
