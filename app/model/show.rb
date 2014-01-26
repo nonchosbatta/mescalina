@@ -75,7 +75,7 @@ class Show < Vienna::Model
 
     def search!(show)
       Database.get("/shows/search/#{show}") { |shows|
-        shows.sort_by { |s| s[:name] }.each { |res|
+        shows.each { |res|
           show = {}
 
           Show.columns.each { |field|
