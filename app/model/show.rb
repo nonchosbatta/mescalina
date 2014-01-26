@@ -55,7 +55,7 @@ class Show < Vienna::Model
       end
 
       Database.get("/#{options}/shows/all/#{filters[:status]}") { |shows|
-        shows.sort_by { |s| s[:name] }.each { |res|
+        shows.each { |res|
           show = {}
 
           Show.columns.each { |field|
