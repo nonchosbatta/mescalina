@@ -47,7 +47,7 @@ class Episode < Vienna::Model
       Database.get("/episodes/last/#{status}") { |episodes|
         if episodes.any?
           last_episode = []
-          episodes.sort_by { |s| s[:show_name] }.each { |res|
+          episodes.each { |res|
             episode = {}
             
             Episode.columns.each { |field|
