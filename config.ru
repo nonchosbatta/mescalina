@@ -7,6 +7,7 @@ run Opal::Server.new { |s|
   s.append_path 'fonts'
   s.append_path 'js'
 
-  s.debug = true
-  s.main  = 'application'
+  s.debug      = true
+  s.main       = 'application'
+  s.index_path = 'index.html.haml'
 }
