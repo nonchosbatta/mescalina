@@ -1,5 +1,18 @@
-tr:first-child {
-  font-weight: bold;
+.container {
+  width:80%;
+}
+
+.table {
+  table-layout: fixed;
+  word-wrap   : break-word;
+}
+
+th:nth-of-type(2) {
+  width:5%;
+}
+
+.table thead > tr > th {
+  border-bottom: none;
 }
 
 h3 {
