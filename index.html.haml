@@ -42,17 +42,18 @@
 
     %div.container
       %table#mescalina.table.table-bordered.table-hover
-        %tr
-          %td Name
-          %td Episodes
-          %td Fansub
-          %td Translator
-          %td Editor
-          %td Checker
-          %td Timer
-          %td Typesetter
-          %td Encoder
-          %td QChecker
+        %thead
+          %tr
+            %th Name
+            %th Episodes
+            %th Fansub
+            %th Translator
+            %th Editor
+            %th Checker
+            %th Timer
+            %th Typesetter
+            %th Encoder
+            %th QChecker
 
       %div#episode.modal.fade{tabindex: '-1', role: 'dialog', :'aria-hidden' => true, :'data-width' => '820'}
         %div.modal-header
@@ -60,15 +61,16 @@
           %h3#episode-title
         %div.modal-body
           %table#episode-info.table.table-bordered.table-hover
-            %tr
-              %td Episode
-              %td Translation
-              %td Editing
-              %td Checking
-              %td Timing
-              %td Typesetting
-              %td Encoding
-              %td QChecking
+            %thead
+              %tr
+                %th Episode
+                %th Translation
+                %th Editing
+                %th Checking
+                %th Timing
+                %th Typesetting
+                %th Encoding
+                %th QChecking
 
       %div#episode-error.modal.fade{tabindex: '-1', role: 'dialog', :'aria-hidden' => true}
         %div.modal-header
