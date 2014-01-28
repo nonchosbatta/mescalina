@@ -2,17 +2,17 @@
   width:80%;
 }
 
-.table {
+.table thead > tr > th {
+  border-bottom: none;
+}
+
+#mescalina {
   table-layout: fixed;
   word-wrap   : break-word;
 }
 
-th:nth-of-type(2) {
-  width:5%;
-}
-
-.table thead > tr > th {
-  border-bottom: none;
+#mescalina > thead > tr > th:nth-of-type(2) {
+  width: 5%;
 }
 
 h3 {
