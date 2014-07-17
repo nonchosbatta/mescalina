@@ -1,7 +1,7 @@
 require 'bundler'
 Bundler.require
 
-desc 'Build the script to mescalina.js'
+desc 'Build the script to mescalina.js and render the view'
 task :build do
   env = Opal::Environment.new
   env.append_path 'app'
@@ -11,5 +11,10 @@ task :build do
 
   File.open('mescalina.js', 'w+') do |out|
     out << env['application'].to_s
+  end
+
+  File.open('index.html', 'w+') do |out|
+    f = File.read('index.html.haml').gsub('= javascript_include_tag "application"', '%script(src="mescalina.js")')
+    out << Haml::Engine.new(f).render
   end
 end
