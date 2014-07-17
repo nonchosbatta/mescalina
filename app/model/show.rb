@@ -44,23 +44,23 @@ class Show < Vienna::Model
     end
 
     def all!(filters)
-      if filters.has_key?    :fansub
+      if filters.has_key? :fansub
         options = "/fansubs/#{filters[:fansub]}"
       elsif filters.has_key? :user
-        if filters.has_key?  :role
+        if filters.has_key? :role
           options = "/users/#{filters[:user]}/#{filters[:role]}"
         else
           options = "/users/#{filters[:user]}"
         end
       end
 
-      Database.get("/#{options}/shows/all/#{filters[:status]}") { |shows|
-        shows.each { |res|
+      Database.get("/#{options}/shows/all/#{filters[:status]}") do |shows|
+        shows.each do |res|
           show = {}
 
-          Show.columns.each { |field|
+          Show.columns.each do |field|
             show[field.to_sym] = res[field] if res.has_key? field
-          }
+          end
 
           if Show.exists? show
             Show.get(show).update stub: rand
@@ -69,18 +69,18 @@ class Show < Vienna::Model
           end
 
           yield Show.get show
-        }
-      }
+        end
+      end
     end
 
     def search!(show)
-      Database.get("/shows/search/#{show}") { |shows|
-        shows.each { |res|
+      Database.get("/shows/search/#{show}") do |shows|
+        shows.each do |res|
           show = {}
 
-          Show.columns.each { |field|
+          Show.columns.each do |field|
             show[field.to_sym] = res[field] if res.has_key? field
-          }
+          end
 
           if Show.exists? show
             Show.get(show).update stub: rand
@@ -89,8 +89,8 @@ class Show < Vienna::Model
           end
 
           yield Show.get show
-        }
-      }
+        end
+      end
     end
   end
 end

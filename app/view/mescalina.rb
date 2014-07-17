@@ -30,23 +30,23 @@ class MescalinaView < Vienna::View
   end
 
   def find_shows(filters)
-    Episode.latest!(filters[:status]) { |episodes|
-      Show.search!(filters[:keyword]) { |show|
+    Episode.latest!(filters[:status]) do |episodes|
+      Show.search!(filters[:keyword]) do |show|
         view = ShowView.new show, episodes.select { |ep| ep.belongs_to? show }.first
         view.render
         Element['#mescalina'] << view.element
-      }
-    }
+      end
+    end
   end
 
   def get_shows(filters)
-    Episode.latest!(filters[:status]) { |episodes|
-      Show.all!(filters) { |show|
+    Episode.latest!(filters[:status]) do |episodes|
+      Show.all!(filters) do |show|
         view = ShowView.new show, episodes.select { |ep| ep.belongs_to? show }.first
         view.render
         Element['#mescalina'] << view.element
-      }
-    }
+      end
+    end
   end
 
   def load(what, filters = {})

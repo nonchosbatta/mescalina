@@ -18,10 +18,10 @@ class EpisodeView < Vienna::TemplateView
     
     Element.find('#episode-title').html @episode.first.show.name
     
-    @episode.each { |episode|
+    @episode.each do |episode|
       view = EpisodeInfoView.new episode
       view.render
       Element.find('#episode-info') << view.element
-    }
+    end
   end
 end

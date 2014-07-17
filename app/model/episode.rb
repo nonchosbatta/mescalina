@@ -11,7 +11,7 @@
 class Episode < Vienna::Model
   adapter Vienna::LocalAdapter
 
-  attributes :download,    :episode, :show,     :show_name
+  attributes :download, :episode, :show, :show_name
   attributes :translation, :editing, :checking, :timing, :typesetting, :encoding, :qchecking
 
   def belongs_to?(show)
@@ -37,31 +37,32 @@ class Episode < Vienna::Model
     end
 
     def exists?(dat_episode)
-      Episode.all.select { |episode|
+      Episode.all.select do |episode|
         episode.show.name == dat_episode[:show].name &&
         episode.episode   == dat_episode[:episode]
-      }.any?
+      end.any?
     end
 
     def latest!(status = :ongoing)
-      Database.get("/episodes/last/#{status}") { |episodes|
+      Database.get("/episodes/last/#{status}") do |episodes|
         if episodes.any?
           last_episode = []
-          episodes.each { |res|
+
+          episodes.each do |res|
             episode = {}
             
-            Episode.columns.each { |field|
+            Episode.columns.each do |field|
               episode[field.to_sym] = res[field] if res.has_key? field
-            }
+            end
 
             last_episode << Episode.new(episode)
-          }
+          end
 
           yield last_episode
         else
           yield []
         end
-      }
+      end
     end
 
     def all!(show)
@@ -70,22 +71,23 @@ class Episode < Vienna::Model
       if episodes.any?
         yield episodes
       else
-        Database.get("/episodes/#{show.name}") { |episodes|
+        Database.get("/episodes/#{show.name}") do |episodes|
           if episodes.any?
-            episodes.each { |res|
+            episodes.each do |res|
               episode = { show: show }
 
-              Episode.columns.each { |field|
+              Episode.columns.each do |field|
                 episode[field.to_sym] = res[field] if res.has_key? field
-              }
+              end
 
               Episode.create episode
-            }
+            end
+            
             yield Episode.of show
           else
             yield []
           end
-        }
+        end
       end
     end
   end

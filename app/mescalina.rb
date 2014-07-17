@@ -21,7 +21,7 @@ class Mescalina
       end
 
       router.route('/:status') do |params|
-        @mescalina.load :get, status:   params[:status]
+        @mescalina.load :get, status: params[:status]
       end
 
       router.route('/search/:keyword') do |params|
@@ -29,7 +29,7 @@ class Mescalina
       end
 
       router.route('/fansubs/:fansub') do |params|
-        @mescalina.load :get,                          fansub: params[:fansub]
+        @mescalina.load :get, fansub: params[:fansub]
       end
 
       router.route('/fansubs/:fansub/:status') do |params|
@@ -37,11 +37,11 @@ class Mescalina
       end
 
       router.route('/users/:user/:role') do |params|
-        @mescalina.load :get,                          user:   params[:user], role: params[:role].to_sym
+        @mescalina.load :get, user: params[:user], role: params[:role].to_sym
       end
 
       router.route('/users/:user/:role/:status') do |params|
-        @mescalina.load :get, status: params[:status], user:   params[:user], role: params[:role].to_sym
+        @mescalina.load :get, status: params[:status], user: params[:user], role: params[:role].to_sym
       end
     end
   end

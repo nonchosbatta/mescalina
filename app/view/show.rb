@@ -25,7 +25,7 @@ class ShowView < Vienna::TemplateView
       Element['.episode-info'].remove
     end
 
-    Episode.all!(@show) { |episodes|
+    Episode.all!(@show) do |episodes|
       if episodes.any?
         view = EpisodeView.new episodes
         view.render
@@ -35,19 +35,19 @@ class ShowView < Vienna::TemplateView
       else
         `$('#episode-error').modal();`
       end
-    }
+    end
   end
 
   def render
     super
     
-    Show.columns.each { |field|
+    Show.columns.each do |field|
       next if Show.exclude? field
       
       view = ShowInfoView.new @show, field, @episode
       view.render
       element << view.element
-    }
+    end
   end
 
   def tag_name
