@@ -1,0 +1,67 @@
+GIT
+  remote: git://github.com/opal/opal-haml.git
+  revision: 0bdd3eb53ec03d380e14440a94f779ed7c3741e1
+  specs:
+    opal-haml (0.2.0)
+      haml
+      opal (>= 0.5.0, < 1.0.0)
+
+GIT
+  remote: git://github.com/opal/opal-jquery.git
+  revision: 8b8b884369ed3e61972518b91800b7eda0c124a0
+  specs:
+    opal-jquery (0.2.0)
+      opal (>= 0.5.0, < 1.0.0)
+
+GIT
+  remote: git://github.com/opal/opal.git
+  revision: 106cfa129ef4bb1b8d3b511dd7def0fbb2e91527
+  specs:
+    opal (0.7.0.dev)
+      source_map
+      sprockets
+
+GIT
+  remote: git://github.com/opal/vienna.git
+  revision: 50a413cd58764070ac03ae10df4dd82d9a24018d
+  specs:
+    vienna (0.0.2)
+      opal (>= 0.5.0, < 1.0.0)
+      opal-activesupport
+      opal-jquery
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    daemons (1.1.9)
+    eventmachine (1.0.3)
+    haml (4.0.5)
+      tilt
+    hike (1.2.3)
+    json (1.8.1)
+    multi_json (1.10.1)
+    opal-activesupport (0.0.5)
+      opal
+    rack (1.5.2)
+    source_map (3.0.1)
+      json
+    sprockets (2.12.1)
+      hike (~> 1.2)
+      multi_json (~> 1.0)
+      rack (~> 1.0)
+      tilt (~> 1.1, != 1.3.0)
+    thin (1.6.2)
+      daemons (>= 1.0.9)
+      eventmachine (>= 1.0.0)
+      rack (>= 1.0.0)
+    tilt (1.4.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  opal!
+  opal-haml!
+  opal-jquery!
+  thin
+  vienna!
