@@ -71,7 +71,9 @@ class Episode < Vienna::Model
       if episodes.any?
         yield episodes
       else
-        Database.get("/episodes/#{show.name}") do |episodes|
+        show_name = `encodeURIComponent(show.name)`
+
+        Database.get("/episodes/#{show_name}") do |episodes|
           if episodes.any?
             episodes.each do |res|
               episode = { show: show }
