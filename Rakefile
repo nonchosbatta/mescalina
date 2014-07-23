@@ -14,7 +14,19 @@ task :build do
   end
 
   File.open('index.html', 'w+') do |out|
+    f = File.read('index.it.html.haml').gsub('= javascript_include_tag "application"', '%script(src="mescalina.js")')
+    out << Haml::Engine.new(f).render
+  end
+
+  File.open('en.html', 'w+') do |out|
     f = File.read('index.html.haml').gsub('= javascript_include_tag "application"', '%script(src="mescalina.js")')
     out << Haml::Engine.new(f).render
   end
+end
+
+desc 'Clean the compiled files'
+task :clean do
+  File.delete 'mescalina.js' if File.exists? 'mescalina.js'
+  File.delete 'index.html'   if File.exists? 'index.html'
+  File.delete 'en.html'      if File.exists? 'en.html'
 end

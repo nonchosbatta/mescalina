@@ -9,8 +9,6 @@
 #++
 
 class MescalinaView < Vienna::View
-  element '#mescalina'
-
   def initialize
     %w(ongoing finished dropped planned).each { |id|
       Element["##{id}"].on :click do
@@ -34,7 +32,9 @@ class MescalinaView < Vienna::View
       Show.search!(filters[:keyword]) do |show|
         view = ShowView.new show, episodes.select { |ep| ep.belongs_to? show }.first
         view.render
-        Element['#mescalina'] << view.element
+
+        airing_status = show.airing ? 'airing' : 'finished'
+        Element["#mescalina-#{airing_status}"] << view.element
       end
     end
   end
@@ -44,7 +44,9 @@ class MescalinaView < Vienna::View
       Show.all!(filters) do |show|
         view = ShowView.new show, episodes.select { |ep| ep.belongs_to? show }.first
         view.render
-        Element['#mescalina'] << view.element
+
+        airing_status = show.airing ? 'airing' : 'finished'
+        Element["#mescalina-#{airing_status}"] << view.element
       end
     end
   end

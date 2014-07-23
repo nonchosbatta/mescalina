@@ -11,7 +11,7 @@
 class Show < Vienna::Model
   adapter Vienna::LocalAdapter
 
-  attributes :name, :tot_episodes, :fansub, :status, :stub
+  attributes :name, :tot_episodes, :fansub, :status, :airing, :stub
   attributes :translator, :editor, :checker, :timer, :typesetter, :encoder, :qchecker
 
   def info?
@@ -19,6 +19,10 @@ class Show < Vienna::Model
   end
     alias_method :infos?,     :info?
     alias_method :has_infos?, :info?
+
+  def airing?
+    airing
+  end
 
   class << self
     def roles
@@ -31,7 +35,7 @@ class Show < Vienna::Model
     end
     
     def exclude?(field)
-      [ :status, :stub ].include? field
+      [ :status, :airing, :stub ].include? field
     end
 
     def get(find_dat_show)

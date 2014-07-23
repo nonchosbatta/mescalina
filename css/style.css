@@ -6,13 +6,13 @@
   border-bottom: none;
 }
 
-#mescalina {
+.mescalina {
   table-layout: fixed;
   word-wrap   : break-word;
 }
 
-#mescalina > thead > tr > th:nth-of-type(2) {
-  width: 6%;
+.mescalina > thead > tr > th:nth-of-type(2) {
+  width: 8%;
 }
 
 h3 {
@@ -72,4 +72,12 @@ td.ongoing a, td.ongoing a:hover, td.ongoing a:visited
 
 .table-hover tbody tr:hover td {
   box-shadow: 0 0 0 1px white;
+}
+
+.airing-status {
+  color: #aaa;
+  font-size: 2.2em;
+  text-align: center;
+  letter-spacing: 1px;
+  line-height: 0.8;
 }
