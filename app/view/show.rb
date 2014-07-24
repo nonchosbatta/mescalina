@@ -15,11 +15,7 @@ class ShowView < Vienna::TemplateView
   end
 
   on :click do |evt|
-    target = evt.target
-    if target.tag_name == ?a
-      Vienna::Router.new.navigate target['href']
-      return
-    end
+    return if evt.target.tag_name == ?a
 
     Element['#episode'].on :'hidden.bs.modal' do
       Element['.episode-info'].remove
