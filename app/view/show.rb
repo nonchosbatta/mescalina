@@ -29,7 +29,6 @@ class ShowView < Vienna::TemplateView
       if episodes.any?
         view = EpisodeView.new episodes
         view.render
-        element << view.element
         
         `$('#episode').modal();`
       else
