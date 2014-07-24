@@ -28,27 +28,11 @@ class MescalinaView < Vienna::View
   end
 
   def find_shows(filters)
-    Episode.latest!(filters[:status]) do |episodes|
-      Show.search!(filters[:keyword]) do |show|
-        view = ShowView.new show, episodes.select { |ep| ep.belongs_to? show }.first
-        view.render
-
-        airing_status = show.airing ? 'airing' : 'finished'
-        Element["#mescalina-#{airing_status}"] << view.element
-      end
-    end
+    load_shows filters, ->(filters, &block) { Show.search!(filters[:keyword], &block) }
   end
 
   def get_shows(filters)
-    Episode.latest!(filters[:status]) do |episodes|
-      Show.all!(filters) do |show|
-        view = ShowView.new show, episodes.select { |ep| ep.belongs_to? show }.first
-        view.render
-
-        airing_status = show.airing ? 'airing' : 'finished'
-        Element["#mescalina-#{airing_status}"] << view.element
-      end
-    end
+    load_shows filters, ->(filters, &block) { Show.all!(filters, &block) }
   end
 
   def load(what, filters = {})
@@ -61,6 +45,19 @@ class MescalinaView < Vienna::View
     case what
       when :get  then get_shows  filters
       when :find then find_shows filters
+    end
+  end
+
+private
+  def load_shows(filters, show_method)
+    Episode.latest!(filters[:status]) do |episodes|
+      show_method.call(filters) do |show|
+        view = ShowView.new show, episodes.select { |ep| ep.belongs_to? show }.first
+        view.render
+
+        airing_status = show.airing ? 'airing' : 'finished'
+        Element["#mescalina-#{airing_status}"] << view.element
+      end
     end
   end
 end
