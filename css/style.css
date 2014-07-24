@@ -7,8 +7,9 @@
 }
 
 .mescalina {
-  table-layout: fixed;
-  word-wrap   : break-word;
+  table-layout : fixed;
+  word-wrap    : break-word;
+  margin-bottom: 28px;
 }
 
 .mescalina > thead > tr > th:nth-of-type(2) {
