@@ -9,9 +9,36 @@
 #++
 
 class SearchView < Vienna::View
-  element '#search'
+  element '#keyword'
 
-  on :click do
-    Vienna::Router.new.navigate "/search/#{Element['#keyword'].value}"
+  search_term_control = ''
+  search = -> do
+    search_term = Element[self.element].value
+    if search_term != search_term_control
+      search_term_control = search_term
+
+      if search_term.strip.empty?
+        $mescalina.load
+      else
+        $mescalina.load :find, keyword: search_term
+      end
+    end
+  end
+
+  initialized = false
+  on :keydown do
+    unless initialized
+      search!
+      initialized = true
+    end
+  end
+  
+  # search_button = Element['#search']
+  # search_button.on :click do
+  #   Vienna::Router.new.navigate "/search/#{search_button.value}"
+  # end
+
+  def search!
+    `setInterval(search, 700)`
   end
 end
