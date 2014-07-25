@@ -40,6 +40,7 @@ class MescalinaView < Vienna::View
 
     Element.find('.show-row').remove
     SearchView.new.element
+    SearchButtonView.new.element
 
     what = :get if !filters.has_key?(:keyword) || filters[:keyword].empty?
     case what

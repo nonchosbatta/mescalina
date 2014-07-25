@@ -32,13 +32,20 @@ class SearchView < Vienna::View
       initialized = true
     end
   end
-  
-  # search_button = Element['#search']
-  # search_button.on :click do
-  #   Vienna::Router.new.navigate "/search/#{search_button.value}"
-  # end
 
   def search!
     `setInterval(search, 700)`
+  end
+end
+
+class SearchButtonView < Vienna::View
+  element '#search'
+
+  on :click do |e|
+    e.stop_propagation
+    e.prevent_default
+    p 1
+    search_term = Element['#keyword'].value
+    Vienna::Router.new.navigate "/search/#{search_term}"
   end
 end
