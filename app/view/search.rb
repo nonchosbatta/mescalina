@@ -41,10 +41,7 @@ end
 class SearchButtonView < Vienna::View
   element '#search'
 
-  on :click do |e|
-    e.stop_propagation
-    e.prevent_default
-    p 1
+  on :click do
     search_term = Element['#keyword'].value
     Vienna::Router.new.navigate "/search/#{search_term}"
   end
