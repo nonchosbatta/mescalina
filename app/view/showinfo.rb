@@ -15,14 +15,24 @@ class ShowInfoView < Vienna::TemplateView
     @episode = episode
   end
 
+  def urls_for(label, infos, *fillers)
+    fillers = ([''] + fillers).join('/')
+
+    [].tap do |url|
+      infos.split(?+).each do |info|
+        url << "<a href='/#/#{label}/#{info.strip}#{fillers}'>#{info}</a>"
+      end
+    end.join(' + ')
+  end
+
   def render
     super
 
     data = @show.send @field
     if @field == :fansub
-      element << "<a href='/#/fansubs/#{data}'>#{data}</a>"
+      element << urls_for(:fansubs, data)
     elsif Show.roles.include? @field
-      element << "<a href='/#/users/#{data}/#{@field}'>#{data}</a>"
+      element << urls_for(:users, data, @field)
       element.add_class(@episode.send(Show.to_task(@field)).to_s) if @episode
     else
       element << data
