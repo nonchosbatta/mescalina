@@ -97,8 +97,8 @@ class Show < Vienna::Model
       end
     end
 
-    def stats!(type = :addicted)
-      Database.get("/stats/#{type}", false) do |stats|
+    def stats!
+      Database.get('/stats', false) do |stats|
         yield stats
       end
     end

@@ -11,7 +11,8 @@
 class MescalinaView < Vienna::View
   def initialize
     %w(ongoing finished dropped planned).each { |id|
-      Element["##{id}"].on :click do
+      Element["##{id}"].on :click do |e|
+        e.prevent_default
         url = `window.location.href`
 
         if url.include?('/fansubs/') || url.include?('/users/')
@@ -25,6 +26,11 @@ class MescalinaView < Vienna::View
         `window.location.href = str` if str
       end
     }
+
+    Element['#get-stats'].on :click do |e|
+      e.prevent_default
+      get_stats
+    end
   end
 
   def find_shows(filters)
