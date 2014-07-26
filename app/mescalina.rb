@@ -20,8 +20,8 @@ class Mescalina
         $mescalina.load
       end
 
-      router.route('/:status') do |params|
-        $mescalina.load :get, status: params[:status]
+      router.route('/stats') do
+        $mescalina.load :stats
       end
 
       router.route('/search/:keyword') do |params|
@@ -42,6 +42,10 @@ class Mescalina
 
       router.route('/users/:user/:role/:status') do |params|
         $mescalina.load :get, status: params[:status], user: params[:user], role: params[:role].to_sym
+      end
+
+      router.route('/:status') do |params|
+        $mescalina.load :get, status: params[:status]
       end
     end
   end

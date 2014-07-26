@@ -31,6 +31,9 @@
                   %a#dropped  Abbandonate
                 %li.planned
                   %a#planned  Future
+            %li
+              %a{href: '/#/stats'}
+                Statistiche
           %ul.nav.navbar-nav.navbar-right
             %li
               %form.navbar-form.navbar-search{role: 'cerca'}
@@ -93,10 +96,23 @@
         %div.modal-body
           %p Non sono stati trovati episodi appartenenti a questa serie.
 
+      %div#stats.modal.fade{tabindex: '-1', role: 'dialog', :'aria-hidden' => true, :'data-width' => '920'}
+        %div.modal-header
+          %button.close{type: 'button', :'data-dismiss' => 'modal', :'aria-hidden' => 'true'}×
+          %h3
+            Statistiche
+        %div.modal-body
+          %table#stat.table.table-bordered.table-hover
+            %thead
+              %tr
+                %th Fansub
+                %th Serie completate
+                %th Episodi completati
+
     %div.footer
       %p
         &copy; 2014
-        %a{ href: 'https://github.com/nonchosbatta', target: '_blank'}
+        %a{href: 'https://github.com/nonchosbatta', target: '_blank'}
           Nonchosbatta
 
     %script

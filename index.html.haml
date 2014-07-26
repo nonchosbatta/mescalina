@@ -31,6 +31,9 @@
                   %a#dropped  Dropped
                 %li.planned
                   %a#planned  Planned
+            %li
+              %a{href: '/#/stats'}
+                Statistics
           %ul.nav.navbar-nav.navbar-right
             %li
               %form.navbar-form.navbar-search{role: 'search'}
@@ -93,8 +96,21 @@
         %div.modal-body
           %p No episodes found.
 
+      %div#stats.modal.fade{tabindex: '-1', role: 'dialog', :'aria-hidden' => true, :'data-width' => '920'}
+        %div.modal-header
+          %button.close{type: 'button', :'data-dismiss' => 'modal', :'aria-hidden' => 'true'}×
+          %h3
+            Statistics
+        %div.modal-body
+          %table#stat.table.table-bordered.table-hover
+            %thead
+              %tr
+                %th Fansub
+                %th Completed series
+                %th Completed episodes
+
     %div.footer
       %p
         &copy; 2014
-        %a{ href: 'https://github.com/nonchosbatta', target: '_blank'}
+        %a{href: 'https://github.com/nonchosbatta', target: '_blank'}
           Nonchosbatta

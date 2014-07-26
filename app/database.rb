@@ -11,11 +11,11 @@
 module Database
   HOST = 'http://pigro.omnivium.it/api/v1'
 
-  def self.get(url)
+  def self.get(url, ary = true)
     url = url.start_with?(?/) ? "#{HOST}#{url}" : url
     
     HTTP.get(url) do |res|
-      yield [res.json].flatten
+      yield ary ? [res.json].flatten : res.json
     end
   end
 end

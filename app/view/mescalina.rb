@@ -35,6 +35,18 @@ class MescalinaView < Vienna::View
     load_shows filters, ->(filters, &block) { Show.all!(filters, &block) }
   end
 
+  def get_stats
+    Show.stats! do |stats|
+      stats.each do |stat|
+        view = StatsView.new stat
+        view.render
+        Element['#stat'] << view.element
+      end
+      
+      `$('#stats').modal();`
+    end
+  end
+
   def load(what, filters = {})
     filters[:status] ||= :ongoing
 
@@ -42,10 +54,11 @@ class MescalinaView < Vienna::View
     SearchView.new.element
     SearchButtonView.new.element
 
-    what = :get if !filters.has_key?(:keyword) || filters[:keyword].empty?
+    what = :get if (`what === undefined` || what != :stats) && (!filters.has_key?(:keyword) || filters[:keyword].empty?)
     case what
-      when :get  then get_shows  filters
-      when :find then find_shows filters
+      when :get   then get_shows  filters
+      when :find  then find_shows filters
+      when :stats then get_stats
     end
   end
 
